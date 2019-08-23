@@ -1,0 +1,12 @@
+[
+	{
+		"id": 1,
+		"transactionDate": "2020-06-18 07:23:22",
+		"transactionType": "priliv",
+		"description": "tincidunt. Donec vitae erat vel pede",
+		"charge": 1146,
+		"deposit": 268,
+		"notes": "eros turpis non enim. Mauris quis turpis vitae purus gravida",
+		"UserId": 88
+	}
+]
