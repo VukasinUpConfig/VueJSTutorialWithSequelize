@@ -29,7 +29,7 @@ module.exports = (sequelize, Datatypes) =>
         {
             type: Datatypes.BOOLEAN,
             allowNull: false,
-            defaultValue: false
+            defaultValue: true
         }
         
     });

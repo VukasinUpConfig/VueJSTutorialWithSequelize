@@ -118,15 +118,17 @@ module.exports = (router) =>
 
     router.post('/transaction', (req, res) =>
     {
-        console.log({
-            transactionType: req.body.transactionType,
-            description: req.body.description,
-            charge: req.body.charge,
-            deposit: req.body.deposit,
-            notes: req.body.notes,
-            UserId: req.body.UserId
-        });
-    
+        // console.log({
+        //     transactionType: req.body.transactionType,
+        //     description: req.body.description,
+        //     charge: req.body.charge,
+        //     deposit: req.body.deposit,
+        //     notes: req.body.notes,
+        //     UserId: req.body.UserId
+        // });
+        
+        const UserId = req.get('UserId');
+
         Transaction.create(
             {
                 transactionType: req.body.transactionType,
@@ -134,7 +136,7 @@ module.exports = (router) =>
                 charge: req.body.charge,
                 deposit: req.body.deposit,
                 notes: req.body.notes,
-                UserId: req.body.UserId
+                UserId: UserId
             })
             .then((transaction) =>
             {

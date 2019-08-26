@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const db = require('./models/db')
 const port = 3000;
 const seed = require('./models/seed/seed-db');
+const swaggerUI = require('swagger-ui-express');
 
 
 app.set('port', (process.env.PORT || 8081));
