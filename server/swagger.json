@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "A simple  netbanking application.\nEnjoy!\n",
+    "description": "Documentation for a simple netbanking application build through Pluralsight's tutorial - 'Building Business Applications with Vue.js and MongoDB', by Mark Scott. This app is using Sequelize instead of MongoDB.\n",
     "version": "1.0.0",
-    "title": "VueJS Tutorial with Sequelize",
+    "title": "Documentation for a simple netbanking app",
     "contact": {
       "email": "vukasin@upconfig.com"
     }
@@ -109,6 +109,13 @@
       "description": "The user's id",
       "type": "integer"
     },
+    "UserIdInHeader": {
+      "name": "UserId",
+      "in": "header",
+      "required": true,
+      "description": "The user's id",
+      "type": "integer"
+    },
     "UserInBody": {
       "name": "user",
       "in": "body",
@@ -136,6 +143,34 @@
         }
       }
     },
+    "TransactionInBody": {
+      "name": "transaction",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "properties": {
+          "transactionType": {
+            "type": "string",
+            "enum": [
+              "priliv",
+              "odliv"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "number"
+          },
+          "deposit": {
+            "type": "number"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "emailInPath": {
       "name": "email",
       "in": "path",
@@ -157,6 +192,20 @@
           }
         }
       }
+    },
+    "yearInPath": {
+      "name": "year",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "format": "integer"
+    },
+    "monthInPath": {
+      "name": "month",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "format": "integer"
     }
   },
   "responses": {
@@ -166,6 +215,15 @@
         "type": "array",
         "items": {
           "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "TransactionResponse": {
+      "description": "A transaction",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Transaction"
         }
       }
     },
@@ -254,6 +312,85 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    },
+    "/transaction/{year}/{month}": {
+      "get": {
+        "summary": "Gets all user's transaction for a given month.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/UserIdInHeader"
+          },
+          {
+            "$ref": "#/parameters/yearInPath"
+          },
+          {
+            "$ref": "#/parameters/monthInPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/TransactionResponse"
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    },
+    "/transaction/balance/{year}/{month}": {
+      "get": {
+        "summary": "Gets a sum of charges and deposits for all user's transaction until the given month.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/UserIdInHeader"
+          },
+          {
+            "$ref": "#/parameters/yearInPath"
+          },
+          {
+            "$ref": "#/parameters/monthInPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sum of charges and deposits for all user's transaction until the given month.",
+            "schema": {
+              "properties": {
+                "charges": {
+                  "type": "number"
+                },
+                "deposits": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    },
+    "/transaction": {
+      "post": {
+        "summary": "Creates a transaction for the user.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/UserIdInHeader"
+          },
+          {
+            "$ref": "#/parameters/TransactionInBody"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/TransactionResponse"
           },
           "500": {
             "$ref": "#/responses/Standard500ErrorResponse"
