@@ -13,10 +13,7 @@ module.exports = function(router)
                     {
                         model: Transaction, as: 'All_Transactions',
                     }
-                    // },
-                    // {
-                    //     model: User, as: 'UserRef'
-                    // }
+                    // },  { model: User, as: 'UserRef' }
                 ]
             })
         .then(docs => 
@@ -29,7 +26,7 @@ module.exports = function(router)
                 console.error(err);
                 res.status(500).json(
                     {
-                        message: 'erro user ' + req.params.id,
+                        message: 'error user ' + req.params.id,
                         error: err
                     });
             }
@@ -84,15 +81,6 @@ module.exports = function(router)
 
     router.put('/user/:id', (req, res) =>
     {
-        // let qry = {id: req.param.id};
-        // let doc = 
-        // {
-        //     // first: req.body.first,
-        //     // last: req.body.last,
-        //     // email: req.body.email,
-        //     // password: req.body.password,
-        //     isActive: req.body.isActive
-        // }
 
         User.update(
         { 
@@ -105,13 +93,13 @@ module.exports = function(router)
             } 
         })
         .then(user =>
-            {
-                res.json(user);
-            })
-            .catch(error =>
-            {
-                console.error(error);
-                res.status(404).send(error);
-            })
+        {
+            res.json(user);
+        })
+        .catch(error =>
+        {
+            console.error(error);
+            res.status(404).send(error);
+        })
     })
 }

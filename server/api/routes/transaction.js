@@ -15,19 +15,6 @@ module.exports = (router) =>
         const startDt = new Date(Date.UTC(year, month, 1, 0, 0, 0))
         const endDt = new Date(Date.UTC(year, month + 1, 1, 0, 0, 0))
 
-        console.log(startDt);
-        console.log(endDt);
-
-        // const qry = 
-        // {
-        //     UserId: UserId,
-        //     transactionDate:
-        //     {
-        //         [Op.lte]: startDt,
-        //         [Op.gte]: endDt
-        //     }
-        // }
-
         Transaction.findAll(
         {
             where:
@@ -57,40 +44,6 @@ module.exports = (router) =>
         const year = req.params.year;
         const endDt = new Date(Date.UTC(year, month + 1, 1, 0, 0, 0))
 
-        // const pipeline = [
-        // {
-        //     where:
-        //     {
-        //         UserId: UserId,
-        //         transactionDate: {lte: endDt}
-        //     } 
-        // },
-        // {
-        //     group:
-        //     {
-        //         _id: null,
-        //         charges: {$sum: '$charge'},
-        //         deposits: {$sum: '$deposit'}
-        //     }
-        // }]
-
-        // ccount.findAll({
-        //     attributes: [
-        //       'id',
-        //       'name',
-        //       [sequelize.fn('sum', sequelize.col('loss.value'), 'lossTotal'],
-        //       [sequelize.fn('sum', sequelize.col('profit.value'), 'profitTotal'],
-        //     ],
-        //     include: [{
-        //       model: Entry,
-        //       as: 'loss',
-        //     }, {
-        //       model: Entry,
-        //       as: 'profit',
-        //     }],
-        //   });
-
-
         Transaction.findAll(
         {
             where:
@@ -117,16 +70,7 @@ module.exports = (router) =>
     });
 
     router.post('/transaction', (req, res) =>
-    {
-        // console.log({
-        //     transactionType: req.body.transactionType,
-        //     description: req.body.description,
-        //     charge: req.body.charge,
-        //     deposit: req.body.deposit,
-        //     notes: req.body.notes,
-        //     UserId: req.body.UserId
-        // });
-        
+    {   
         const UserId = req.get('UserId');
 
         Transaction.create(
@@ -147,11 +91,6 @@ module.exports = (router) =>
                 console.error(error);
                 res.status(404).send(error);
             });
-        // transaction.save((err, transaction) =>
-        // {
-        //     if(err) return console.error(err);
-        //     res.status(200).json(transaction);
-        // });
     });
 
     

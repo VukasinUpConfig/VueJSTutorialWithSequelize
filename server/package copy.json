@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js --ignore ./dist",
+    "start": "npm run lint & nodemon app.js --ignore ./dist",
     "lint": "eslint '**/*.js'"
   },
   "keywords": [],
@@ -11,9 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "minimist": "^1.2.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.1",
     "sequelize": "^5.15.1",
