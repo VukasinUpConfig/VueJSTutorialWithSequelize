@@ -81,16 +81,12 @@ module.exports = function(router)
 
     router.put('/user/:id', (req, res) =>
     {
-
-        User.update(
-        { 
-            isActive: req.body.isActive 
-        },
-        { 
-            where: 
-            {
-                id: req.params.id 
-            } 
+        User.findByPk(req.params.id)
+        .then(user =>
+        {
+            return user.update({ 
+                isActive: req.body.isActive 
+            });
         })
         .then(user =>
         {
@@ -101,5 +97,6 @@ module.exports = function(router)
             console.error(error);
             res.status(404).send(error);
         })
+
     })
 }
