@@ -7,15 +7,20 @@ const db = require('./models/db')
 const port = 3000;
 const seed = require('./models/seed/seed-db');
 const swaggerUI = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+const cors = require('cors');
 
-
-app.set('port', (process.env.PORT || 8081));
+app.set('port', (process.env.PORT || 3000));//8081));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+app.use(cors());
+
 app.use('/api', api);
 app.use(express.static('static'));
+
+app.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 //app.use(morgan('dev'));
 
@@ -25,6 +30,8 @@ app.use(function(req, res, next)
     err.status = 404;
     res.json(err);
 });
+
+//swaggerUI.setAppHandler(app);
 
 
 db.sequelize.sync(
@@ -41,7 +48,8 @@ db.sequelize.sync(
 
     app.listen(port, () => 
     {
-    console.log('running on server port' + port);
+        
+        console.log('running on server port' + port);
     })
 })
 // .then(() =>

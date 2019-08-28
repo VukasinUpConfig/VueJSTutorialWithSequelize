@@ -1,0 +1,265 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "A simple  netbanking application.\nEnjoy!\n",
+    "version": "1.0.0",
+    "title": "VueJS Tutorial with Sequelize",
+    "contact": {
+      "email": "vukasin@upconfig.com"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "definitions": {
+    "User": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "first": {
+          "type": "string",
+          "example": "Ivan"
+        },
+        "last": {
+          "type": "string",
+          "example": "Perisic"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "alphanumeric"
+        },
+        "isActive": {
+          "type": "boolean",
+          "default": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "All_Transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Transaction"
+          }
+        }
+      }
+    },
+    "Transaction": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "transactionDate": {
+          "type": "string",
+          "format": "date-time",
+          "default": "createdAt"
+        },
+        "transactionType": {
+          "type": "string",
+          "enum": [
+            "priliv",
+            "odliv"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "charge": {
+          "type": "number"
+        },
+        "deposit": {
+          "type": "number"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "UserId": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "UserIdInPath": {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "description": "The user's id",
+      "type": "integer"
+    },
+    "UserInBody": {
+      "name": "user",
+      "in": "body",
+      "required": true,
+      "description": "The user's id",
+      "schema": {
+        "properties": {
+          "first": {
+            "type": "string",
+            "example": "Ivan"
+          },
+          "last": {
+            "type": "string",
+            "example": "Perisic"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "kucica123"
+          }
+        }
+      }
+    },
+    "emailInPath": {
+      "name": "email",
+      "in": "path",
+      "required": true,
+      "description": "The user's email",
+      "type": "string",
+      "format": "email"
+    },
+    "isActiveInBody": {
+      "name": "isActive",
+      "in": "body",
+      "required": true,
+      "description": "User's activity",
+      "schema": {
+        "properties": {
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "UserResponse": {
+      "description": "An user",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "Standard500ErrorResponse": {
+      "description": "An unexpected error occured.",
+      "schema": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/user/{id}": {
+      "get": {
+        "summary": "Gets an user by id",
+        "description": "Returns a single user for it's id",
+        "parameters": [
+          {
+            "$ref": "#/parameters/UserIdInPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserResponse"
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates user's activity",
+        "description": "This method could change isActive param",
+        "parameters": [
+          {
+            "$ref": "#/parameters/UserIdInPath"
+          },
+          {
+            "$ref": "#/parameters/isActiveInBody"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    },
+    "/user/email/{email}": {
+      "get": {
+        "summary": "Gets an user by email",
+        "description": "Returns a single user for it's email",
+        "parameters": [
+          {
+            "$ref": "#/parameters/emailInPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserResponse"
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "summary": "Creates an user",
+        "description": "Creates an user with given first and last name, email and password.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/UserInBody"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    }
+  }
+}
